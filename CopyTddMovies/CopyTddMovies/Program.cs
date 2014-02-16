@@ -20,19 +20,37 @@ namespace CopyTddMovies
                     return;
                 }
 
-                var copyer = new MovieCopy();
+                string tddFolder = @"C:\TDDownload";
 
-                var rootDir = @"C:\TDDownload";
-                var targetDir = @"C:\Movies";
+                CleanGarbageFolders(tddFolder);
 
-                copyer.DoIt = doIt;
-
-                copyer.Copy(rootDir, targetDir);
+                CopyDownloadedMovies();
             }
             catch (Exception exp)
             {
                 Console.WriteLine(exp.ToString());
             }
+        }
+
+        private static void CopyDownloadedMovies()
+        {
+            var copyer = new MovieCopy();
+
+            var rootDir = @"C:\TDDownload";
+            var targetDir = @"C:\Movies";
+
+            copyer.DoIt = doIt;
+
+            copyer.Copy(rootDir, targetDir);
+        }
+
+        private static void CleanGarbageFolders(string tddFolder)
+        {
+            GarbageFolderCleaner cleaner = new GarbageFolderCleaner();
+            cleaner.RootFolder = tddFolder;
+            cleaner.DoIt = doIt;
+
+            cleaner.Clean();
         }
 
         private static void ShowHelpMessage()
