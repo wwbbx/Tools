@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,17 +14,61 @@ namespace PasswordGeniusModel
         public List<PasswordEntity> Search(string jsonQueryString)
         {
             // extract jsonQueryString as query setting
+            var setting = ConvertJsonStringToPasswordEntity(jsonQueryString);
 
             // send query string to DataStorage
+            var queryString = ConvertPasswordEntityToJsonString(setting);
 
             // convert returned string as PasswordEntity array
+            var queryResult = DataStorage.Query(queryString);
+            var result = JsonConvert.DeserializeObject(queryResult, typeof(List<PasswordEntity>));
 
-            throw new NotImplementedException();
+            return result as List<PasswordEntity>;
+        }
+
+        public bool Contains(PasswordEntity passwordEntity)
+        {
+            var queryJson = ConvertPasswordEntityToJsonString(passwordEntity);
+
+            var exists = Search(queryJson);
+
+            return exists.Count > 0 ? true : false;
+        }
+
+        private string ConvertPasswordEntityToJsonString(PasswordEntity passwordEntity)
+        {
+            return JsonConvert.SerializeObject(passwordEntity);
+        }
+
+        private PasswordEntity ConvertJsonStringToPasswordEntity(string json)
+        {
+            return JsonConvert.DeserializeObject<PasswordEntity>(json);
         }
 
         public void Insert(PasswordEntity passwordEntityToInsert)
         {
-            throw new NotImplementedException();
+            if (Contains(passwordEntityToInsert))
+            {
+                Update(passwordEntityToInsert);
+            }
+            else
+            {
+                Add(passwordEntityToInsert);
+            }
         }
+
+        private void Add(PasswordEntity passwordEntityToInsert)
+        {
+            var json = ConvertPasswordEntityToJsonString(passwordEntityToInsert);
+            DataStorage.Add(json);
+        }
+
+        private void Update(PasswordEntity passwordEntityToInsert)
+        {
+            var json = ConvertPasswordEntityToJsonString(passwordEntityToInsert);
+            DataStorage.Update(passwordEntityToInsert.Name, json);
+        }
+
+
     }
 }

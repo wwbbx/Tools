@@ -10,7 +10,7 @@ namespace TestPasswordGeniusModel
     public class GeniusLoadFunction
     {
         [TestMethod]
-        public void load_by_id_will_return_desired_detailed_info()
+        public void load_by_key_will_return_desired_detailed_info()
         {
             // prepare
             var expected = new PasswordEntity()
@@ -22,7 +22,7 @@ namespace TestPasswordGeniusModel
             // action
             var genius = new Genius();
             genius.DataStorageService = MockDataStorageService();
-            PasswordEntity password = genius.LoadById("guid");
+            PasswordEntity password = genius.LoadByNameKey("nixin");
 
             // assert
             Assert.AreEqual(expected.Name, password.Name);
@@ -32,7 +32,7 @@ namespace TestPasswordGeniusModel
         private IDataService MockDataStorageService()
         {
             var dataStorageMock = new Mock<IDataService>();
-            dataStorageMock.Setup(func => func.Search("{id:guid}")).Returns(
+            dataStorageMock.Setup(func => func.Search("{\"Name\":\"nixin\"}")).Returns(
                 new List<PasswordEntity>()
                 {
                     new PasswordEntity(){ Name = "nixin", Description = "description" },

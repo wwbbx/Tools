@@ -36,8 +36,7 @@ namespace TestPasswordGeniusModel
         private IDataService MockStorageServiceAfterInsert()
         {
             var storageMock = new Mock<IDataService>();
-            storageMock.Setup(func => func.Search(It.IsAny<string>()))
-                .Returns(new List<PasswordEntity>() { new PasswordEntity()});
+            storageMock.Setup(func => func.Contains(It.IsAny<PasswordEntity>())).Returns(true);
 
             return storageMock.Object;
         }
@@ -45,8 +44,7 @@ namespace TestPasswordGeniusModel
         private IDataService MockStorageServiceBeforeInsert()
         {
             var storageMock = new Mock<IDataService>();
-            storageMock.Setup(func => func.Search(It.IsAny<string>()))
-                .Returns(new List<PasswordEntity>());
+            storageMock.Setup(func => func.Contains(It.IsAny<PasswordEntity>())).Returns(false);
 
             return storageMock.Object;
         }

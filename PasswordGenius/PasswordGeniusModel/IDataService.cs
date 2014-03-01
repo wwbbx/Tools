@@ -15,5 +15,7 @@ namespace PasswordGeniusModel
         List<PasswordEntity> Search(string jsonQueryString);
 
         void Insert(PasswordEntity passwordEntityToInsert);
+
+        bool Contains(PasswordEntity passwordEntity);
     }
 }

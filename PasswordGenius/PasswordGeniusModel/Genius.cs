@@ -47,18 +47,20 @@ namespace PasswordGeniusModel
             }
         }
 
-        public PasswordEntity LoadById(string id)
+        public PasswordEntity LoadByNameKey(string name)
         {
-            return DataStorageService.Search("{id:" + id + "}")[0];
+            // external should check whether this "name" key entity exist or not
+            // before calling this function.
+            // So we don't deal with if found result is empty or null.
+
+            var querySetting = "{\"Name\":\"" + name + "\"}";
+            var list = DataStorageService.Search(querySetting);
+            return list[0];
         }
 
         public bool Has(PasswordEntity passwordEntity)
         {
-            var queryJson = JsonConvert.SerializeObject(passwordEntity);
-
-            var exists = DataStorageService.Search(queryJson);
-
-            return exists.Count > 0 ? true : false;
+            return DataStorageService.Contains(passwordEntity);
         }
 
         public void Add(PasswordEntity passwordEntityToInsert)
