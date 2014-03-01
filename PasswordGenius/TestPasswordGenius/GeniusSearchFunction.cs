@@ -54,7 +54,7 @@ namespace TestPasswordGeniusModel
 
         private void PrepareEnvironment(Genius genius)
         {
-            var dataStorageMock = new Mock<IDataStorage>();
+            var dataStorageMock = new Mock<IDataService>();
 
             var expectedData = ConstructQueryResultForAnything();
             // mock search function.

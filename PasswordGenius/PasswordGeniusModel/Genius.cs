@@ -13,7 +13,7 @@ namespace PasswordGeniusModel
     /// </summary>
     public class Genius
     {
-        public IDataStorage DataStorageService { get; set; }
+        public IDataService DataStorageService { get; set; }
 
         public void Search(string anything)
         {

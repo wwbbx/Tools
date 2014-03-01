@@ -29,9 +29,9 @@ namespace TestPasswordGeniusModel
             Assert.AreEqual(expected.Description, password.Description);
         }
 
-        private IDataStorage MockDataStorageService()
+        private IDataService MockDataStorageService()
         {
-            var dataStorageMock = new Mock<IDataStorage>();
+            var dataStorageMock = new Mock<IDataService>();
             dataStorageMock.Setup(func => func.Search("{id:guid}")).Returns(
                 new List<PasswordEntity>()
                 {

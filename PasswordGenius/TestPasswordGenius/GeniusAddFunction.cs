@@ -33,18 +33,18 @@ namespace TestPasswordGeniusModel
             Assert.IsTrue(exist);
         }
 
-        private IDataStorage MockStorageServiceAfterInsert()
+        private IDataService MockStorageServiceAfterInsert()
         {
-            var storageMock = new Mock<IDataStorage>();
+            var storageMock = new Mock<IDataService>();
             storageMock.Setup(func => func.Search(It.IsAny<string>()))
                 .Returns(new List<PasswordEntity>() { new PasswordEntity()});
 
             return storageMock.Object;
         }
 
-        private IDataStorage MockStorageServiceBeforeInsert()
+        private IDataService MockStorageServiceBeforeInsert()
         {
-            var storageMock = new Mock<IDataStorage>();
+            var storageMock = new Mock<IDataService>();
             storageMock.Setup(func => func.Search(It.IsAny<string>()))
                 .Returns(new List<PasswordEntity>());
 
