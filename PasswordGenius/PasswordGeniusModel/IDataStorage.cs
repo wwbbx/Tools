@@ -8,14 +8,8 @@ namespace PasswordGeniusModel
 {
     public interface IDataStorage
     {
-        // return serialized JSON string for PasswordEntity array.
-        // input is also JSON query string.
-        string Read(string queryString);
+        List<PasswordEntity> Search(string jsonQueryString);
 
-        void Create(string detailJson);
-
-        void Update(string detailJsonWithId);
-
-        void Delete(string idString);
+        void Insert(PasswordEntity passwordEntityToInsert);
     }
 }

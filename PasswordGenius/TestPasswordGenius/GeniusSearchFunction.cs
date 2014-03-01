@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PasswordGeniusModel;
 using Moq;
+using System.Collections.Generic;
 
 namespace TestPasswordGeniusModel
 {
@@ -36,7 +37,7 @@ namespace TestPasswordGeniusModel
             // setup expectation
             var nixinPassword = "password";
             var nixinDescription = "testing description";
-            var nixinExtra = "extra information for nixin";
+            var nixinExtra = "extra information";
 
             // action
             genius.Search("nixin");
@@ -55,28 +56,39 @@ namespace TestPasswordGeniusModel
         {
             var dataStorageMock = new Mock<IDataStorage>();
 
-            string expectedData = ConstructJsonArrayQueryResult();
+            var expectedData = ConstructQueryResultForAnything();
             // mock search function.
-            dataStorageMock.Setup(func => func.Read(It.IsAny<string>())).Returns(expectedData);
+            dataStorageMock.Setup(func => func.Search(It.IsAny<string>())).Returns(expectedData);
 
-            string nixinData = ConstructJsonArrayQueryResultForNixin();
-            dataStorageMock.Setup(func => func.Read("{Name:nixin}")).Returns(nixinData);
+            var nixinData = ConstructQueryResultForNixin();
+            dataStorageMock.Setup(func => func.Search("{name:nixin}")).Returns(nixinData);
+
+            dataStorageMock.Setup(func => func.Search("{description:nixin}")).Returns(new List<PasswordEntity>());
+            dataStorageMock.Setup(func => func.Search("{extra:nixin}")).Returns(new List<PasswordEntity>());
 
             genius.DataStorageService = dataStorageMock.Object;
         }
 
-        private string ConstructJsonArrayQueryResultForNixin()
+        private List<PasswordEntity> ConstructQueryResultForNixin()
         {
-            return "[{Name:\"nixin\", Password:\"good\"}," 
-                + "{Name:david, Password:\"good\"}," 
-                + "{Name:kelly, Password:\"good\"}]";
+            return new List<PasswordEntity>()
+            {
+                new PasswordEntity(){
+                    Name="nixin",
+                    Password = "password",
+                    Description = "testing description",
+                    Extra = "extra information"
+                }
+            };
         }
 
-        private string ConstructJsonArrayQueryResult()
+        private List<PasswordEntity> ConstructQueryResultForAnything()
         {
-            return "{Name:\"nixin\", Password:\"password\"," 
-                + " Description:\"testing description\", " 
-                + "Extra:\"extra information for nixin\"}";
+            return new List<PasswordEntity>(){
+                new PasswordEntity(){Name="nixin", Password = "nixin"},
+                new PasswordEntity(){Name="david", Password="david"},
+                new PasswordEntity(){Name="kelly", Password="kelly"}
+            };
         }
 
     }
