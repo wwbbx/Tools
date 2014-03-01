@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PasswordGeniusModel;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace TestPasswordGenius
 {
@@ -43,13 +45,57 @@ namespace TestPasswordGenius
 
         private void PrepareTestingDataFile()
         {
-            throw new NotImplementedException();
+            var dataFileFullName = Path.Combine(Environment.CurrentDirectory, "PasswordData.dat");
+
+            var passwordNixin = new PasswordEntity()
+            {
+                Name = "nixin",
+                Description = "description"
+            };
+
+            var passwordDavid = new PasswordEntity()
+            {
+                Name = "david",
+                Password = "pdavid"
+            };
+
+            var passwordKelly = new PasswordEntity()
+            {
+                Name = "kelly",
+                Extra = "extra"
+            };
+
+            StringBuilder content = new StringBuilder();
+            content.AppendLine(passwordNixin.ToJson());
+            content.AppendLine(passwordDavid.ToJson());
+            content.AppendLine(passwordKelly.ToJson());
+
+            File.WriteAllText(dataFileFullName, content.ToString());
         }
 
         [TestMethod]
         public void add_will_append_password_entity()
         {
-            throw new NotImplementedException();
+            var nameKey = "gondor";
+
+            IDataStorage dataStorage = new FileStorage();
+
+            // make sure current one is null.
+            var existingPassword = GetPasswordEntityByName(nameKey, dataStorage);
+            Assert.IsNull(existingPassword);
+
+            // add it
+            var passwordToAdd = new PasswordEntity()
+            {
+                Name = nameKey,
+                Password = "gondor"
+            };
+
+            dataStorage.Add(passwordToAdd.ToJson());
+
+            // it should exist now.
+            existingPassword = GetPasswordEntityByName(nameKey, dataStorage);
+            Assert.IsNotNull(existingPassword);
         }
 
         [TestMethod]

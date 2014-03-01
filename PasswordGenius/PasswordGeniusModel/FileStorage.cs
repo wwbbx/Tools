@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,8 @@ namespace PasswordGeniusModel
 {
     public class FileStorage:IDataStorage
     {
+        private const string fileName = "PasswordData.dat";
+
         public string Query(string queryString)
         {
             throw new NotImplementedException();
@@ -16,7 +19,7 @@ namespace PasswordGeniusModel
 
         public void Add(string json)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void Update(string nameKey, string json)
