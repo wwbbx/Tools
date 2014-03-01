@@ -35,16 +35,6 @@ namespace PasswordGeniusModel
             return exists.Count > 0 ? true : false;
         }
 
-        private string ConvertPasswordEntityToJsonString(PasswordEntity passwordEntity)
-        {
-            return JsonConvert.SerializeObject(passwordEntity);
-        }
-
-        private PasswordEntity ConvertJsonStringToPasswordEntity(string json)
-        {
-            return JsonConvert.DeserializeObject<PasswordEntity>(json);
-        }
-
         public void Insert(PasswordEntity passwordEntityToInsert)
         {
             if (Contains(passwordEntityToInsert))
@@ -69,6 +59,15 @@ namespace PasswordGeniusModel
             DataStorage.Update(passwordEntityToInsert.Name, json);
         }
 
+        private string ConvertPasswordEntityToJsonString(PasswordEntity passwordEntity)
+        {
+            return JsonConvert.SerializeObject(passwordEntity);
+        }
+
+        private PasswordEntity ConvertJsonStringToPasswordEntity(string json)
+        {
+            return JsonConvert.DeserializeObject<PasswordEntity>(json);
+        }
 
     }
 }

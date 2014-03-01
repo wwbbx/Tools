@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,22 @@ namespace PasswordGeniusModel
         public string Password { get; set; }
         public string Description { get; set; }
         public string Extra { get; set; }
+
+        public string ToJson()
+        {
+            var jsonString = JsonConvert.SerializeObject(this);
+            return jsonString;
+        }
+
+        public void ParseJson(string jsonString)
+        {
+            var passwordEntity = JsonConvert.DeserializeObject<PasswordEntity>(jsonString);
+            
+            this.Name = passwordEntity.Name;
+            this.Description = passwordEntity.Description;
+            this.Password = passwordEntity.Password;
+            this.Extra = passwordEntity.Extra;
+        }
 
     }
 }

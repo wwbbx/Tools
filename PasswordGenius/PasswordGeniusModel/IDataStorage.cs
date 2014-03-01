@@ -7,11 +7,12 @@ namespace PasswordGeniusModel
 {
     public interface IDataStorage
     {
-
         string Query(string queryString);
 
         void Add(string json);
 
         void Update(string nameKey, string json);
+
+        string QueryName(string name);
     }
 }
