@@ -6,12 +6,18 @@ using System.Threading.Tasks;
 
 namespace PasswordGeniusModel
 {
-    public class GeniusDataStorage:IDataService
+    public class GeniusDataService:IDataService
     {
         public IDataStorage DataStorage { get; set; }
 
         public List<PasswordEntity> Search(string jsonQueryString)
         {
+            // extract jsonQueryString as query setting
+
+            // send query string to DataStorage
+
+            // convert returned string as PasswordEntity array
+
             throw new NotImplementedException();
         }
 
